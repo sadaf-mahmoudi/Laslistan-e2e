@@ -29,7 +29,7 @@ test.describe('Navigering mellan vyer', () => {
     await expect(katalogButton).toBeEnabled();
     await katalogButton.click();
 
-    const books = page.locator('.book'); // Leta efter minst en bok på katalogsidan
+    const books = page.locator('.book'); // Letar efter minst en bok på katalogsidan
     await expect(books.first()).toBeVisible();
   });
 });
