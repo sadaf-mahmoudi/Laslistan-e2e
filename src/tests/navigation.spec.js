@@ -1,35 +1,37 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Navigering mellan vyer', () => {
+test.describe("Navigering mellan vyer", () => {
+
   test.beforeEach(async ({ page }) => {
     await page.goto('https://tap-ht24-testverktyg.github.io/exam-template/');
   });
+//Test för att kontrollera navigering mellan vyerna "Katalog", "Lägg till bok" och "Mina böcker"
+  test("Navigera från Katalog till Lägg till bok och sen till Mina böcker", async ({ page }) => {
+    await page.getByRole("button", { name: "Lägg till bok" }).click();
+    await expect(page.getByTestId("add-input-title")).toBeVisible();
 
-  test('Användare kan gå mellan tre vyer: "Katalog", "Lägg till bok" och "Mina böcker"', async ({ page }) => {
-    
-    // Kontrollera att "Lägg till bok"-knappen finns och är klickbar
-    const addBookButton = page.getByRole('button', { name: /lägg till bok/i });
-    await expect(addBookButton).toBeEnabled();  // Timeout hanteras automatiskt
-    await addBookButton.click();
-
-    // Kontrollera att vi ser "Lägg till ny bok"-knappen när vi är på "Lägg till bok"-vyn
-    const addNewBookButton = page.getByRole('button', { name: /lägg till ny bok/i });
-    await expect(addNewBookButton).toBeVisible();  // Timeout hanteras automatiskt
-
-    // Gå till "Mina böcker" och kontrollera att ett tomt meddelande visas om inga favoriter finns
-    const myBooksButton = page.getByRole('button', { name: /mina böcker/i });
-    await expect(myBooksButton).toBeEnabled();
-    await myBooksButton.click();
-
-    const emptyMessage = page.getByText(/när du valt, kommer dina favoritböcker att visas här/i);
-    await expect(emptyMessage).toBeVisible();
-
-    // Gå till "Katalog" och verifiera att vi ser minst en bok
-    const katalogButton = page.locator('[data-testid="catalog"]');
-    await expect(katalogButton).toBeEnabled();
-    await katalogButton.click();
-
-    const books = page.locator('.book'); // Letar efter minst en bok på katalogsidan
-    await expect(books.first()).toBeVisible();
+    await page.getByRole("button", { name: "Mina böcker" }).click();
+    await expect(page.getByText("dina favoritböcker")).toBeVisible();
   });
+//Test för att kontrollera navigering mellan "Lägg till bok", "Katalog" och "Mina böcker"
+  test("Gå från Lägg till bok till Katalog och vidare till Mina böcker", async ({ page }) => {
+    await page.getByRole("button", { name: "Lägg till bok" }).click();
+    await page.getByRole("button", { name: "Katalog" }).click();
+    await expect(page.getByText("Bertil Flimmer")).toBeVisible();
+
+    await page.getByRole("button", { name: "Mina böcker" }).click();
+    await expect(page.getByText("dina favoritböcker")).toBeVisible();
+  });
+//Test för att kontrollera navigering från "Mina böcker" till "Katalog" och sedan till "Lägg till bok"
+  test("Från Mina böcker till Katalog och sen till Lägg till bok", async ({ page }) => {
+    await page.getByRole("button", { name: "Mina böcker" }).click();
+    await expect(page.getByText("dina favoritböcker")).toBeVisible();
+
+    await page.getByRole("button", { name: "Katalog" }).click();
+    await expect(page.getByText("Kaffekokaren som visste för mycket")).toBeVisible();
+
+    await page.getByRole("button", { name: "Lägg till bok" }).click();
+    await expect(page.getByTestId("add-input-author")).toBeVisible();
+  });
+
 });

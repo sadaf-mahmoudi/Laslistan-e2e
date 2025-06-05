@@ -1,71 +1,49 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Lägg till ny bok', () => {
+test.describe("Lägg till bok", () => {
+
   test.beforeEach(async ({ page }) => {
     await page.goto('https://tap-ht24-testverktyg.github.io/exam-template/');
   });
 
-  test('ska kunna lägga till en ny bok och se den i katalogen', async ({ page }) => {
-    const addBookBtn = page.getByRole('button', { name: 'Lägg till bok' });
-    const katalogBtn = page.getByRole('button', { name: 'Katalog' });
-    const titleInput = page.getByTestId('add-input-title');
-    const authorInput = page.getByTestId('add-input-author');
-    const saveBtn = page.getByRole('button', { name: 'Lägg till ny bok' });
+  //Test för att lägga till en bok och kontrollera att den visas i katalogen
+  test("En ny bok med titel och författare visas i katalogen", async ({ page }) => {
+    await page.getByRole("button", { name: "Lägg till bok" }).click();  
+    await page.getByTestId("add-input-title").fill("Så här försover du dig med stil");  
+    await page.getByTestId("add-input-author").fill("Lena Snoozberg");  
+    await page.getByRole("button", { name: "Lägg till ny bok" }).click(); 
 
-    // Navigera till "Lägg till bok"
-    await addBookBtn.click({ timeout: 500 });
-    await expect(page.getByText('Titel')).toBeVisible({ timeout: 500 });
+    await page.getByRole("button", { name: "Katalog" }).click();  // Navigerar till katalogvyn
 
-    // Fyll i titel och författare
-    await titleInput.fill('Testbok', { timeout: 500 });
-    await authorInput.fill('Testförfattare', { timeout: 500 });
-
-    // Klicka på "Lägg till ny bok"
-    await saveBtn.click({ timeout: 500 });
-
-    // Navigera till "Katalog" och kontrollera att boken visas
-    await katalogBtn.click({ timeout: 500 });
-    await expect(page.getByText('Testbok')).toBeVisible({ timeout: 500 });
-    await expect(page.getByText('Testförfattare')).toBeVisible({ timeout: 500 });
+    await expect(page.getByText("Så här försover du dig med stil")).toBeVisible();  // Verifierar att boken syns
+    await expect(page.getByText("Lena Snoozberg")).toBeVisible();  //Här verifieras att författaren syns
   });
 
-  test('ska inte tillåta att lägga till bok utan titel', async ({ page }) => {
-    const addBookBtn = page.getByRole('button', { name: 'Lägg till bok' });
-    const authorInput = page.getByTestId('add-input-author');
-    const saveBtn = page.getByRole('button', { name: 'Lägg till ny bok' });
-
-    await addBookBtn.click({ timeout: 500 });
-    await authorInput.fill('Testförfattare', { timeout: 500 });
-
-    // Kontrollera att knappen är inaktiv eller inget händer
-    await expect(saveBtn).toBeDisabled({ timeout: 500 });
+  //Test för att säkerställa att Lägg till ny bok-knappen är inaktiv om titel saknas
+  test("Spara-knappen ska vara avstängd om titel saknas", async ({ page }) => {
+    await page.getByRole("button", { name: "Lägg till bok" }).click();  // Klickar på "Lägg till bok"
+    await page.getByTestId("add-input-author").fill("Bengt Pennlös");  
+    const knapp = page.getByRole("button", { name: "lägg till ny bok" });  
+    await expect(knapp).toBeDisabled();  
   });
 
-  test('ska inte tillåta att lägga till bok utan författare', async ({ page }) => {
-    const addBookBtn = page.getByRole('button', { name: 'Lägg till bok' });
-    const titleInput = page.getByTestId('add-input-title');
-    const saveBtn = page.getByRole('button', { name: 'Lägg till ny bok' });
-
-    await addBookBtn.click({ timeout: 500 });
-    await titleInput.fill('Testbok', { timeout: 500 });
-
-    // Kontrollera att knappen är inaktiv eller inget händer
-    await expect(saveBtn).toBeDisabled({ timeout: 500 });
+  //Test för att säkerställa att "Lägg till ny bok-knappen är inaktiv om författare saknas
+  test("Spara-knappen ska vara avstängd om författare saknas", async ({ page }) => {
+    await page.getByRole("button", { name: "Lägg till bok" }).click();  
+    await page.getByTestId("add-input-title").fill("Osynliga boken");  // Fyller i titel
+    const knapp = page.getByRole("button", { name: "lägg till ny bok" });  
+    await expect(knapp).toBeDisabled();  
   });
 
-  test('ska nollställa formuläret efter att bok lagts till', async ({ page }) => {
-    const addBookBtn = page.getByRole('button', { name: 'Lägg till bok' });
-    const titleInput = page.getByTestId('add-input-title');
-    const authorInput = page.getByTestId('add-input-author');
-    const saveBtn = page.getByRole('button', { name: 'Lägg till ny bok' });
+  //Test för att säkerställa att formuläret rensas efter att en bok lagts till
+  test("Formuläret rensas efter att en bok läggs till", async ({ page }) => {
+    await page.getByRole("button", { name: "Lägg till bok" }).click(); 
+    await page.getByTestId("add-input-title").fill("Morgonrutiner för nattugglor");  
+    await page.getByTestId("add-input-author").fill("Nina Mörker");  
+    await page.getByRole("button", { name: "Lägg till ny bok" }).click(); 
 
-    await addBookBtn.click({ timeout: 500 });
-    await titleInput.fill('Testbok', { timeout: 500 });
-    await authorInput.fill('Testförfattare', { timeout: 500 });
-    await saveBtn.click({ timeout: 500 });
-
-    // Kontrollera att fälten är tomma efter tillägg
-    await expect(titleInput).toHaveValue('', { timeout: 500 });
-    await expect(authorInput).toHaveValue('', { timeout: 500 });
+    await expect(page.getByTestId("add-input-title")).toHaveValue("");  //Här verifieras titelfältet tom
+    await expect(page.getByTestId("add-input-author")).toHaveValue("");  
   });
+
 });

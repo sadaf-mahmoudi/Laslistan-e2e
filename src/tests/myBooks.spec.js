@@ -1,21 +1,24 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Mina böcker', () => {
+test.describe("Mina böcker-vy", () => {
+
   test.beforeEach(async ({ page }) => {
     await page.goto('https://tap-ht24-testverktyg.github.io/exam-template/');
   });
+//Test för att säkerställa att favoritböcker visas korrekt i Mina böcker
+  test("Favoritböcker visas korrekt i Mina böcker-vyn", async ({ page }) => {
+    await page.getByTestId("star-Min katt är min chef").click();
+    await page.getByTestId("star-Att prata med växter – och vad de egentligen tycker om dig").click();
+    await page.getByRole("button", { name: "Mina böcker" }).click();
 
-  test('ska visa ett meddelande om att listan är tom när inga favoritböcker finns', async ({ page }) => {
-    // Kontrollera att knappen "Mina böcker" är synlig och klickbar
-    const myBooksBtn = page.getByRole('button', { name: 'Mina böcker' });
-    await expect(myBooksBtn).toBeVisible();
-    await expect(myBooksBtn).toBeEnabled();
-
-    // Klicka på knappen "Mina böcker"
-    await myBooksBtn.click({ timeout: 5000 });  // Timeout för att ge tillräckligt med tid för att navigera
-
-    // Vänta på att texten om tom lista ska bli synlig
-    const emptyListText = page.getByText(/När du valt/i);
-    await expect(emptyListText).toBeVisible({ timeout: 5000 });  // Timeout på 5 sekunder för textens synlighet
+    await expect(page.getByText("Min katt är min chef")).toBeVisible();
+    await expect(page.getByText("Att prata med växter – och vad de egentligen tycker om dig")).toBeVisible();
   });
+//Test för att säkerställa att om inga böcker är favoritmarkerade, så visas ett tomt meddelande
+  test("Om inga böcker är favoritmarkerade visas ett tomt meddelande", async ({ page }) => {
+    await page.getByRole("button", { name: "Mina böcker" }).click();
+    const tomtMeddelande = page.getByText("När du valt, kommer dina favoritböcker att visas här.");
+    await expect(tomtMeddelande).toBeVisible();
+  });
+
 });

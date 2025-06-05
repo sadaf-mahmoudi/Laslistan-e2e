@@ -1,32 +1,74 @@
 User Stories
-
-Lägg till bok
-Som användare vill jag kunna lägga till en bok till katalogen, så att jag kan hålla min boksamling uppdaterad.
+Lägg till bok:
+Som en användare vill jag kunna lägga till en ny bok med både titel och författare så att den syns i katalogen efteråt.  
 Acceptanskriterier:
-Jag ska kunna fylla i boktitel och författare i ett formulär.
-Jag ska kunna klicka på knappen "Lägg till ny bok" för att lägga till boken.
-När jag går tillbaka till katalogen ska jag se den nya boken i listan.
-Om jag inte fyller i titel eller författare, ska knappen "Lägg till ny bok" vara inaktiv.
-När boken är tillagd, ska formuläret återställas och vara tomt.
+Om både titel och författare är ifyllda ska "Lägg till ny bok"-knappen vara aktiv.
+När jag klickar på knappen läggs boken till och syns i katalogen.
 
-Katalogvy
-Som användare vill jag kunna se en lista med böcker i katalogen, så att jag kan välja en bok att läsa.
+Blockera bok utan titel
+Som en användare vill jag inte kunna klicka på "Lägg till ny bok"-knappen om jag inte fyllt i en titel så att jag inte råkar lägga till en ofullständig bok.  
 Acceptanskriterier:
-Jag ska kunna se varje bok med titel och författare i katalogvyn.
-Jag ska kunna klicka på en bok och se detaljer om boken.
-När jag lägger till en ny bok, ska den synas i katalogen direkt.
+Om titel saknas ska knappen vara inaktiv.
 
-Mina böcker
-Som användare vill jag kunna markera böcker som favorit, så att jag kan enkelt hitta mina favoritböcker i Mina böcker.
+Blockera bok utan författare
+Som en användare vill jag inte kunna klicka på "Lägg till ny bok"-knappen om jag inte fyllt i en författare så att jag säkerställer att informationen är komplett.  
 Acceptanskriterier:
-Jag ska kunna favoritmarkera böcker i katalogen genom att klicka på ett hjärta.
-Jag ska kunna se de favoritmarkerade böckerna i "Mina böcker".
-Jag ska kunna ta bort favoritmarkeringen och se att boken försvinner från Mina böcker.
-Om jag inte har några favoritböcker, ska jag få ett meddelande om att listan är tom.
+Om författare saknas ska knappen vara inaktiv.
 
-Navigering mellan vyer
-Som användare vill jag kunna navigera mellan tre olika vyer: Katalog, Lägg till bok och Mina böcker, så att jag kan interagera med appen på ett smidigt sätt.
+Nollställ formulär efter tillägg
+Som en användare vill jag att formuläret nollställs efter att en bok lagts till så att jag enkelt kan lägga till fler böcker utan att manuellt rensa fälten.  
 Acceptanskriterier:
-Jag ska kunna navigera mellan vyerna "Katalog", "Lägg till bok" och "Mina böcker" utan problem.
-Jag ska kunna hitta tydliga knappar för att växla mellan vyerna.
-Alla tre vyer ska vara lättillgängliga och synliga för mig som användare.
+Efter att jag klickat på "Lägg till ny bok" ska input-fälten för titel och författare vara tomma.
+//Här slutar Lägg till bok//
+
+Katalog-vyn:
+Visa titel och författare
+Som en användare vill jag att varje bok i katalogen visar både titel och författare så att jag snabbt kan få relevant information om boken.  
+Acceptanskriterier:
+Alla böcker i listan visar både titel och författarnamn.
+
+Markera bok som favorit
+Som en användare vill jag kunna klicka på ett hjärta vid en bok så att den bok jag gillar markeras som favorit och visas under "Mina böcker".  
+Acceptanskriterier:
+När jag klickar på hjärtat ska boken synas i "Mina böcker"-vyn.
+
+Avmarkera favoritbok
+Som en användare vill jag kunna klicka på hjärtat igen på en favoritmarkerad bok så att den tas bort från mina favoriter och inte längre visas under "Mina böcker".  
+Acceptanskriterier:
+Om jag klickar på hjärtat igen försvinner boken från "Mina böcker".
+//Här slutar katalog-vyn//
+
+Mina böcker (favoriter):
+Visa favoritböcker
+Som en användare vill jag kunna navigera till "Mina böcker" så att jag kan se alla böcker jag har markerat som favoriter.  
+Acceptanskriterier:
+När jag navigerar till "Mina böcker" visas alla mina favoritmarkerade böcker.
+
+Visa tom vy vid inga favoriter
+Som en användare vill jag att om jag inte har några favoritmarkerade böcker så ska sidan visa ett meddelande eller vara tom, vilket bekräftar att inga favoriter är sparade.  
+Acceptanskriterier:
+Om inga böcker är favoritmarkerade visas ett tomt-meddelande.
+//Här slutar Mina böcker (favoriter)
+
+Navigering:
+Navigera mellan vyer
+Som en användare vill jag kunna navigera mellan “Katalog”, “Lägg till bok” och “Mina böcker” från vilken vy som helst, så att jag snabbt kan utföra olika uppgifter utan att behöva gå tillbaka till startsidan.  
+Acceptanskriterier:
+Navigeringsknapparna är alltid synliga.
+Klick på en knapp visar rätt vy.
+
+Se katalog
+Som en användare vill jag kunna klicka på "Katalog"-knappen så att jag kan se katalogvyn med tillgängliga böcker.  
+Acceptanskriterier:
+Klick på "Katalog" visar boksidan med titlar och författare.
+
+Navigera till Lägg till bok
+Som en användare vill jag kunna navigera till sidan "Lägg till bok" så att jag kan se ett formulär med ett författare-fält för att lägga till en ny bok.  
+Acceptanskriterier:
+Klick på "Lägg till bok" visar formuläret med inputfält.
+
+Navigera till Mina böcker
+Som en användare vill jag kunna navigera till "Mina böcker" så att jag kan se mina favoritmarkerade böcker.  
+Acceptanskriterier:
+Klick på "Mina böcker" visar favoritsidan med markerade böcker.
+//Här slutar Navigering//
